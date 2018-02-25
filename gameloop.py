@@ -1,19 +1,25 @@
 from const import *
-import tcod as libtcod
+from player import *
+import tcod
 
-font_flags = libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD
-libtcod.console_set_custom_font(FONT_PATH, font_flags)
+font_flags = tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD
+tcod.console_set_custom_font(FONT_PATH, font_flags)
 
-libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE, FULLSCREEN)
+tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE, INITIAL_GAME_FULLSCREEN_STATE)
 
 #limiting FPS for non turn based
-libtcod.sys_set_fps(LIMIT_FPS)
+tcod.sys_set_fps(LIMIT_FPS)
 
 
 #Main Loop of the game
-while not libtcod.console_is_window_closed():
-    libtcod.console_set_default_foreground(0, libtcod.white)
-    libtcod.console_put_char(0, 1, 1, '@', libtcod.BKGND_NONE)
+while not tcod.console_is_window_closed():
+    tcod.console_set_default_foreground(0, tcod.white)
+    tcod.console_put_char(0, player_x, player_y, 'x', tcod.BKGND_NONE)
 
-    libtcod.console_flush()
+    tcod.console_flush()
+    tcod.console_put_char(0, player_x, player_y, ' ', tcod.BKGND_NONE) #erases the last position
 
+    #key handling
+    exit = handle_keys()
+    if exit:
+        break
